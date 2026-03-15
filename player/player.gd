@@ -4,8 +4,12 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 @onready var camera = $CameraRig
+@onready var character_mesh = $GobotSkin
 
-func _unhandled_input(event: InputEvent) -> void:
+# Use your own animations, this is free godot model stuff
+@onready var x = $GobotSkin/AnimationTree
+
+func _unhandled_input(_event: InputEvent) -> void:
 	# Mouse capturing
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		capture_mouse()
@@ -40,19 +44,18 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_direction.x * SPEED
 		velocity.z = move_direction.z * SPEED
 		
-		#velocity.x = move_direction.x * move_speed
-		#velocity.z = move_direction.z * move_speed
-		#
-		## Rotate character towards movement
-		#if move_direction.length() > 0.01:
-			#var target_angle := atan2(-move_direction.x, -move_direction.z)
-			#character_mesh.rotation.y = lerp_angle(
-				#character_mesh.rotation.y,
-				#target_angle,
-				#delta * 10
-			#)
+		# Rotate the character to face the movement direction.
+		if move_direction.length() > 0.01:
+			var target_angle := atan2(move_direction.x, move_direction.z)
+			character_mesh.rotation.y = lerp_angle(
+				character_mesh.rotation.y,
+				target_angle,
+				delta * 10
+			)
+		character_mesh.run()
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
+		character_mesh.idle()
 
 	move_and_slide()

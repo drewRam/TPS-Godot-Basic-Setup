@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bwxvi43h2mav5"]
 
 [ext_resource type="Script" uid="uid://gjsslxy02wbb" path="res://player/player.gd" id="1_oul6g"]
+[ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://addons/gdquest_gobot/gobot_skin.tscn" id="2_g1dw6"]
 [ext_resource type="Script" uid="uid://df2jiltgy3ydg" path="res://player/camera_rig.gd" id="2_rkbax"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rkbax"]
@@ -12,7 +13,10 @@ script = ExtResource("1_oul6g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1201424134]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_rkbax")
+
+[node name="GobotSkin" parent="." unique_id=634443231 instance=ExtResource("2_g1dw6")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=734786484]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
