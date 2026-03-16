@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://eg4u0fhjsn5q"]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" unique_id=1092967664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+radius = 0.25
+height = 0.5
