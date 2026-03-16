@@ -1,7 +1,8 @@
 extends CharacterBody3D
 
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const speed = 5.0
+const jump_velocity = 4.5
+var is_jumping = false
 
 @onready var camera = $CameraRig
 @onready var character_mesh = $GobotSkin
@@ -29,20 +30,20 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = jump_velocity
 
 	## Camera relative direction
 	var forward = camera.global_transform.basis.z
 	var right = camera.global_transform.basis.x
+	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_direction := Input.get_vector("left", "right", "forward", "back")
-	
 	var move_direction = (forward * input_direction.y + right * input_direction.x).normalized()
 	
 	if move_direction:
-		velocity.x = move_direction.x * SPEED
-		velocity.z = move_direction.z * SPEED
+		velocity.x = move_direction.x * speed
+		velocity.z = move_direction.z * speed
 		
 		# Rotate the character to face the movement direction.
 		if move_direction.length() > 0.01:
@@ -52,10 +53,19 @@ func _physics_process(delta: float) -> void:
 				target_angle,
 				delta * 10
 			)
+	else:
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
+	
+	# Animation control for gdquest_gobot. 
+	if not is_on_floor():
+		if velocity.y > 0.01:
+			character_mesh.jump()
+		else:
+			character_mesh.fall()
+	elif move_direction:
 		character_mesh.run()
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
 		character_mesh.idle()
-
+		
 	move_and_slide()

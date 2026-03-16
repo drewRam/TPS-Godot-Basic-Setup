@@ -8,6 +8,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rkbax"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_g1dw6"]
+radius = 0.3
+
 [node name="Player" type="CharacterBody3D" unique_id=1625327822]
 script = ExtResource("1_oul6g")
 
@@ -27,6 +30,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("2_rkbax")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraRig" unique_id=1550047437]
+shape = SubResource("SphereShape3D_g1dw6")
 spring_length = 3.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D" unique_id=739817062]
